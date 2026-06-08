@@ -2,11 +2,11 @@
 
 ## Overview
 
-This project documents the design, build, and validation of a structured homelab network environment using UniFi networking equipment, Raspberry Pi DNS services, Docker-based monitoring, and a rack-mounted physical infrastructure.
+This project documents the design, build, and validation of a structured homelab network environment using UniFi networking equipment, Raspberry Pi DNS services, Docker-based monitoring, and rack-mounted physical infrastructure.
 
 The purpose of this lab is to create a semi-professional environment for hands-on practice with networking, Linux administration, Docker, DNS, monitoring, VLAN segmentation, firewall policy, VPN access, and software-defined networking concepts.
 
-This project is intended to demonstrate practical infrastructure skills through a real working network rather than a simulated-only environment.
+This project demonstrates practical infrastructure skills through a real working network rather than a simulated-only environment.
 
 ## Project Goals
 
@@ -18,7 +18,7 @@ The main goals of this project are:
 * Deploy Pi-hole and Unbound for network-wide DNS filtering and recursive DNS resolution.
 * Run Docker services on an Ubuntu-based mini PC.
 * Monitor key network services using Uptime Kuma.
-* Document the network using professional-style diagrams, IP plans, port maps, and validation tests.
+* Document the network using professional-style diagrams, IP plans, port maps, screenshots, and validation tests.
 * Prepare the environment for future projects involving VLANs, guest networking, IoT isolation, VPN access, and SDN labs.
 
 ## Current Network Topology
@@ -52,6 +52,26 @@ UniFi USW Lite 8 PoE Switch
         |
         +--> WD My Cloud / Network Storage
 ```
+
+## Visual Overview
+
+### Physical Rack Build
+
+![Rack Front View](screenshots/rack/rack-front-view.png)
+
+Front view of the 12U rack showing the patch panel, UniFi switch, UniFi gateway, Raspberry Pi rack mount, HP homelab mini PC, rack PDU, and structured equipment layout.
+
+### UniFi Gateway Dashboard
+
+![UniFi Gateway Dashboard](screenshots/unifi/unifi-gateway-dashboard.png)
+
+UniFi Network dashboard showing Cloud Gateway Ultra status, WAN health, latency monitoring, packet loss tracking, internet activity, and Wi-Fi connectivity metrics.
+
+### UniFi Client List
+
+![UniFi Client List](screenshots/unifi/unifi-client-list.png)
+
+UniFi client list showing wired and wireless devices connected through the managed network, including the homelab server, Pi-hole, desktop, access point clients, and network storage.
 
 ## Hardware Used
 
@@ -88,6 +108,28 @@ U2   Rack PDU / Power Strip
 U1   Blank / Future UPS
 ```
 
+## Cable Management
+
+The rack is organized to keep Ethernet/data cabling and power cabling separated where possible.
+
+Current cabling approach:
+
+* Patch panel is mounted directly above the switch.
+* Short patch cables connect patch panel ports to switch ports.
+* Rack devices connect directly to the switch.
+* Power is distributed through the rack PDU.
+* Permanent Ethernet runs are terminated at the patch panel.
+* In-wall Ethernet cabling uses T568A termination.
+
+Permanent cable standard:
+
+```text
+Patch panel side: T568A
+Wall jack / endpoint side: T568A
+```
+
+Short premade Cat6 patch cables are used inside the rack instead of solid-core attic/in-wall cable because patch cables are more flexible and better suited for rack connections.
+
 ## Network Services
 
 ### UniFi Gateway
@@ -117,6 +159,8 @@ Pi-hole provides network-wide DNS filtering for client devices.
 | DHCP              | Disabled                     |
 | Upstream Resolver | Unbound                      |
 | Admin URL         | `http://192.168.1.120/admin` |
+
+Pi-hole is used only for DNS. DHCP remains enabled on the UniFi Gateway to avoid DHCP conflicts.
 
 ### Unbound
 
@@ -289,8 +333,9 @@ Current best practices applied:
 * Infrastructure devices assigned or planned for fixed IP reservations.
 * Administrative services are kept internal only.
 * No SSH, Portainer, Pi-hole, or Uptime Kuma ports are exposed directly to the public internet.
-* Power and Ethernet cabling are routed separately inside the rack.
-* Documentation is maintained for topology, IP addressing, services, and validation.
+* Public WAN IP addresses are removed or obscured from public screenshots.
+* Power and Ethernet cabling are routed separately where possible.
+* Documentation is maintained for topology, IP addressing, services, screenshots, and validation.
 
 ## Future Improvements
 
@@ -332,8 +377,6 @@ The lab is designed to support future portfolio projects including:
 
 ## Repository Structure
 
-Planned repository layout:
-
 ```text
 homelab-network-infrastructure/
 ├── README.md
@@ -349,10 +392,21 @@ homelab-network-infrastructure/
 │   ├── rack-layout.png
 │   └── vlan-plan.png
 ├── screenshots/
+│   ├── rack/
+│   │   └── rack-front-view.png
 │   ├── unifi/
+│   │   ├── unifi-gateway-dashboard.png
+│   │   ├── unifi-client-list.png
+│   │   └── unifi-switch-ports.png
 │   ├── pihole/
+│   │   ├── pihole-dashboard.png
+│   │   └── pihole-query-log.png
 │   ├── uptime-kuma/
-│   └── portainer/
+│   │   └── uptime-kuma-dashboard.png
+│   ├── portainer/
+│   │   └── portainer-dashboard.png
+│   └── validation/
+│       └── dns-validation.png
 └── configs/
     ├── docker-compose/
     └── sanitized-examples/
@@ -374,4 +428,3 @@ Do not include:
 * Full account screenshots containing private information
 
 Private LAN IP addresses such as `192.168.1.x` are acceptable for documentation.
-
