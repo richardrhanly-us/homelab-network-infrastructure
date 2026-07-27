@@ -88,7 +88,7 @@ Authoritative DNS Servers
 ### Physical Rack
 
 <p align="center">
-  <img src="screenshots/rack/rack-front-view.png" width="850" alt="Homelab network rack"/>
+  <img src="screenshots/rack/rack-front-view.jpeg" width="850" alt="Homelab network rack"/>
 </p>
 
 ### UniFi Dashboard
